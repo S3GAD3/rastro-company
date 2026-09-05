@@ -4,6 +4,9 @@ Herramienta web de apoyo a la investigación OSINT de empresas, personas jurídi
 
 **RASTRO · COMPANY** permite organizar en un único entorno la identificación de una empresa, validar datos básicos, preparar consultas en fuentes públicas, documentar relaciones y generar un resumen exportable de la investigación.
 
+Enlace a la herramienta: 
+https://s3gad3.github.io/rastro-company/
+
 > La herramienta no sustituye a los registros oficiales ni verifica automáticamente la veracidad de los datos encontrados. Los resultados deben ser contrastados por el investigador.
 
 ## Características principales
