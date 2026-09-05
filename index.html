@@ -556,7 +556,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="rastro-header__right">
     <span class="rastro-badge ok">● SISTEMA OPERATIVO</span>
     <span class="rastro-badge local">▣ PROCESAMIENTO LOCAL</span>
-      <span class="rastro-badge">VERSIÓN 1.3</span>
+      <span class="rastro-badge">VERSIÓN 1.4</span>
   </div>
 </header>
 
@@ -625,7 +625,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="grid-2">
     <div class="panel">
       <h2 class="panel__head">Fuentes utilizadas</h2>
-      <p>BOE/BORME, Registro Mercantil Central, OEPM (Localizador de Marcas, TMview, BOPI), Registro Público Concursal, sistema VIES de la Comisión Europea, Google/Bing (búsqueda dirigida), LinkedIn, Wayback Machine, crt.sh (Certificate Transparency), Google Public DNS (DoH) y RDAP.org. El detalle de cada una está en la sección 03 · Resultados.</p>
+      <p>BOE/BORME, Registro Mercantil Central, DatosCif, LibreBOR, InfoNIF, OEPM (Localizador de Marcas, TMview, BOPI), Registro Público Concursal, sistema VIES de la Comisión Europea, Google/Bing (búsqueda dirigida), LinkedIn, Wayback Machine, crt.sh (Certificate Transparency), Google Public DNS (DoH) y RDAP.org. El detalle de cada una está en la sección 03 · Resultados.</p>
     </div>
     <div class="panel">
       <h2 class="panel__head">Limitaciones</h2>
@@ -764,6 +764,12 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     <div class="panel">
       <h2 class="panel__head">Registro mercantil y publicidad legal</h2>
       <div id="grupo-mercantil"></div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel__head">Fuentes mercantiles complementarias <span class="tag-ext">SERVICIOS EXTERNOS</span></h2>
+      <p class="hint">Consultas dirigidas por CIF y denominación. RASTRO abre la búsqueda, pero no extrae, copia ni almacena el contenido de estos portales.</p>
+      <div id="grupo-agregadores"></div>
     </div>
 
     <div class="panel">
@@ -967,7 +973,8 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       <ul>
         <li>Ningún archivo o dato introducido se envía a un servidor propio.</li>
         <li>La resolución DNS y RDAP se envían a servicios públicos de terceros (Google, RDAP.org) solo al pulsar el botón correspondiente.</li>
-        <li>Los enlaces a registros oficiales abren esos servicios en una pestaña nueva; sus resultados y disponibilidad no dependen de RASTRO.</li>
+        <li>Los enlaces a registros y agregadores mercantiles abren servicios de terceros en una pestaña nueva; sus resultados, condiciones y disponibilidad no dependen de RASTRO.</li>
+        <li>DatosCif, LibreBOR e InfoNIF se consultan mediante búsquedas dirigidas. RASTRO no reproduce sus contenidos ni utiliza credenciales o servicios prémium.</li>
         <li>Formatos admitidos para importar relaciones: CSV y JSON con columnas origen, tipo, destino, fuente, fecha.</li>
       </ul>
     </div>
@@ -1064,16 +1071,24 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     return "<dt>" + escapeHtml(label) + "</dt><dd>" + valueHtml + "</dd>";
   }
 
-  function externalLinkRow(name, desc, url, isApi) {
-    var tag = isApi ? '<span class="tag-ext">API</span>' : '<span class="tag-ext">ENLACE</span>';
+  function externalLinkRow(name, desc, url, options) {
+    options = options || {};
+    var tag = '<span class="tag-ext">' + escapeHtml(options.tag || "ENLACE") + '</span>';
+    var buttonLabel = options.buttonLabel || "Abrir";
     return '<div class="source-row">' +
       '<div class="source-row__main">' +
       '<div class="source-row__name">' + escapeHtml(name) + " " + tag + "</div>" +
       '<div class="source-row__desc">' + escapeHtml(desc) + "</div>" +
       "</div>" +
       '<div class="source-row__actions">' +
-      '<a class="btn btn-ext btn-small" href="' + escapeAttr(url) + '" target="_blank" rel="noopener noreferrer">Abrir</a>' +
+      '<a class="btn btn-ext btn-small" href="' + escapeAttr(url) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(buttonLabel) + '</a>' +
       "</div></div>";
+  }
+
+  function targetedCompanySource(name, desc, siteFilter, homeUrl, query, tag) {
+    if (!query) return externalLinkRow(name, desc + " Introduce antes un CIF o una denominación para preparar la búsqueda.", homeUrl, { tag: tag || "PORTAL" });
+    var url = "https://www.google.com/search?q=" + encodeURIComponent("site:" + siteFilter + " " + query);
+    return externalLinkRow(name, desc, url, { tag: tag || "CONSULTA", buttonLabel: "Buscar" });
   }
 
   /* =========================================================
@@ -1510,9 +1525,8 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     var cifLimpio = estado.cif ? estado.cif.limpio : "";
     var dominio = estado.dominio && !estado.dominio.esIP ? estado.dominio.limpio : "";
     var nombreQ = encodeURIComponent(nombre);
-    var cifQ = encodeURIComponent(cifLimpio);
     var domQ = encodeURIComponent(dominio);
-    var norm = nombre ? normalizarNombre(nombre) : null;
+    var companyQuery = [cifLimpio, nombre].filter(Boolean).map(function (value) { return '"' + value + '"'; }).join(" ");
 
     var mercantil = "";
     mercantil += externalLinkRow("BOE — Buscador del BORME", "Boletín Oficial del Registro Mercantil. Busca por el campo «Título» con la denominación de la empresa.", "https://www.boe.es/borme/");
@@ -1522,6 +1536,12 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     mercantil += externalLinkRow("OpenCorporates", "Índice internacional no oficial para localizar sociedades, jurisdicciones y cargos; contrasta siempre el resultado con el registro de origen.", "https://opencorporates.com/companies?q=" + encodeURIComponent(nombre || cifLimpio));
     if (cifLimpio) mercantil += externalLinkRow("Google — CIF exacto", "Busca el identificador fiscal exacto en documentos indexados, adjudicaciones, boletines y avisos legales.", "https://www.google.com/search?q=" + encodeURIComponent('"' + cifLimpio + '"'));
     $("#grupo-mercantil").innerHTML = mercantil;
+
+    var agregadores = "";
+    agregadores += targetedCompanySource("DatosCif — empresa y vinculaciones", "Datos societarios, cargos, actos BORME, organigrama y relaciones entre empresas y directivos.", "datoscif.es/empresa", "https://www.datoscif.es/", companyQuery, "GRATUITO");
+    agregadores += targetedCompanySource("LibreBOR — historial mercantil", "Consulta y análisis de actos BORME, cargos directivos y trayectoria societaria. La API no se utiliza ni se almacenan credenciales.", "librebor.me", "https://librebor.me/", companyQuery, "CONSULTA");
+    agregadores += targetedCompanySource("InfoNIF — información financiera y comercial", "Datos mercantiles, cuentas, ratios, licitaciones y contactos; parte del contenido puede requerir registro o pago.", "infonif.economia3.com/ficha-empresa", "https://infonif.economia3.com/", companyQuery, "GRATUITO / PRÉMIUM");
+    $("#grupo-agregadores").innerHTML = agregadores;
 
     var marcas = "";
     marcas += externalLinkRow("OEPM — Localizador de Marcas", "Búsqueda de marcas y nombres comerciales denominativos o gráficos registrados en España.", "https://consultas2.oepm.es/LocalizadorWeb/");
@@ -1908,7 +1928,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   function construirObjetoInforme() {
     return {
       modulo: "RASTRO · COMPANY",
-      version: "1.3",
+      version: "1.4",
       generado: nowStamp(),
       objetivo: {
         nombre: estado.nombre || null,
