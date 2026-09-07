@@ -121,24 +121,6 @@ Solo existe comunicación con terceros cuando el investigador ejecuta expresamen
 - Los resultados de servicios externos pueden cambiar, requerir autenticación o dejar de estar disponibles.
 - Las coincidencias de nombres, domicilios o infraestructuras son indicios que requieren contraste adicional.
 
-## Publicación con GitHub Pages
-
-1. Crea un repositorio, por ejemplo `rastro-company`.
-2. Sube a la raíz:
-   - `index.html` — puedes renombrar `index-rastro-company.html`;
-   - `README.md`;
-   - `LICENSE`.
-3. Abre **Settings → Pages**.
-4. En **Build and deployment**, selecciona **Deploy from a branch**.
-5. Elige la rama `main` y la carpeta `/root`.
-6. Guarda la configuración.
-
-La dirección resultante tendrá normalmente este formato:
-
-```text
-https://TU-USUARIO.github.io/rastro-company/
-```
-
 ## Contribuciones y forks
 
 Se permiten contribuciones, modificaciones, mejoras y forks de este proyecto conforme a la licencia MIT.
