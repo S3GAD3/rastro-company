@@ -67,13 +67,13 @@ No es necesario completar todos los campos. La calidad y amplitud de las consult
 RASTRO · COMPANY depura la denominación social antes de construir las búsquedas. Por ejemplo:
 
 ```text
-VERITAS & HÁBITAT, S.L. → VERITAS & HÁBITAT
+Empresa ficticia, S.L. → Empresa ficticia 
 ```
 
 Cuando existe denominación y CIF, los combina mediante `OR`:
 
 ```text
-("VERITAS & HÁBITAT" OR "B21771712")
+("Empresa ficticia" OR "Bxxxx12")
 ```
 
 Esto permite recuperar páginas que contengan cualquiera de los dos identificadores.
@@ -83,27 +83,27 @@ Esto permite recuperar páginas que contengan cualquiera de los dos identificado
 Presencia en LinkedIn, sin restringir la ruta interna de la página:
 
 ```text
-site:linkedin.com ("VERITAS & HÁBITAT" OR "B21771712")
+site:linkedin.com ("Empresa ficticia" OR "Bxxxx2")
 ```
 
 Personas vinculadas y cargos societarios:
 
 ```text
-site:linkedin.com ("VERITAS & HÁBITAT" OR "B21771712")
+site:linkedin.com ("Empresa ficticia" OR "Bxxxxx12")
 (administrador OR apoderado OR CEO OR "consejero delegado")
 ```
 
 Documentos públicos:
 
 ```text
-("VERITAS & HÁBITAT" OR "B21771712")
+("Empresa ficticia" OR "Bxxxx12")
 filetype:pdf (memoria OR "cuentas anuales" OR contrato OR informe)
 ```
 
 Señales de riesgo:
 
 ```text
-("VERITAS & HÁBITAT" OR "B21771712")
+("Empresa Ficticia" OR "Bxxxxx2")
 (fraude OR estafa OR sanción OR investigada OR concurso OR insolvencia OR sentencia)
 ```
 
