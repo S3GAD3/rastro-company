@@ -411,6 +411,12 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
 .source-row__desc { font-size: 11.5px; color: var(--rastro-muted); margin-top: 2px; }
 .source-row__actions { display: flex; gap: 6px; flex-shrink: 0; }
 
+.source-guide { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:14px; }
+.source-guide__step { border:1px solid var(--rastro-border); border-top:3px solid var(--rastro-blue); background:#fff; border-radius:3px; padding:10px; min-width:0; }
+.source-guide__step strong { display:block; color:var(--rastro-navy); font-size:11.5px; }
+.source-guide__step span { display:block; color:var(--rastro-muted); font-size:10.5px; margin-top:3px; }
+.source-legend { display:flex; flex-wrap:wrap; gap:8px 14px; margin:0 0 14px; font-size:10.5px; color:var(--rastro-muted); }
+
 .empty-state {
   color: var(--rastro-faint);
   font-size: 12.5px;
@@ -518,6 +524,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   .rastro-header__module small { display: none; }
   .rastro-badge.local, .rastro-badge.ok { display: none; }
   .kv { grid-template-columns: 120px 1fr; }
+  .source-guide { grid-template-columns:repeat(2,1fr); }
 }
 @media (max-width: 600px) {
   :root { --header-h: 62px; }
@@ -537,6 +544,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   .kv dd { padding-top:2px; overflow-wrap:anywhere; }
   .source-row { align-items:flex-start; flex-direction:column; }
   .source-row__actions, .source-row__actions .btn { width:100%; }
+  .source-guide { grid-template-columns:1fr; }
   .graph-wrap { height:430px; }
   #graph-svg { min-width:100%; }
   .creator { font-size:8px; }
@@ -556,7 +564,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="rastro-header__right">
     <span class="rastro-badge ok">● SISTEMA OPERATIVO</span>
     <span class="rastro-badge local">▣ PROCESAMIENTO LOCAL</span>
-      <span class="rastro-badge">VERSIÓN 1.4</span>
+      <span class="rastro-badge">VERSIÓN 1.7</span>
   </div>
 </header>
 
@@ -565,7 +573,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     <option value="sec-info">00 · INFORMACIÓN</option>
     <option value="sec-consulta">01 · CONSULTA</option>
     <option value="sec-analisis">02 · ANÁLISIS</option>
-    <option value="sec-resultados">03 · RESULTADOS</option>
+    <option value="sec-resultados">03 · FUENTES</option>
     <option value="sec-relaciones">04 · RELACIONES</option>
     <option value="sec-informe">05 · INFORME</option>
     <option value="sec-ayuda">06 · AYUDA</option>
@@ -577,7 +585,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     <li><button class="rastro-nav__item active" data-target="sec-info" role="tab">00&nbsp;&nbsp;INFORMACIÓN</button></li>
     <li><button class="rastro-nav__item" data-target="sec-consulta" role="tab">01&nbsp;&nbsp;CONSULTA</button></li>
     <li><button class="rastro-nav__item" data-target="sec-analisis" role="tab">02&nbsp;&nbsp;ANÁLISIS</button></li>
-    <li><button class="rastro-nav__item" data-target="sec-resultados" role="tab">03&nbsp;&nbsp;RESULTADOS</button></li>
+    <li><button class="rastro-nav__item" data-target="sec-resultados" role="tab">03&nbsp;&nbsp;FUENTES</button></li>
     <li><button class="rastro-nav__item" data-target="sec-relaciones" role="tab">04&nbsp;&nbsp;RELACIONES</button></li>
     <li><button class="rastro-nav__item" data-target="sec-informe" role="tab">05&nbsp;&nbsp;INFORME</button></li>
     <li><button class="rastro-nav__item" data-target="sec-ayuda" role="tab">06&nbsp;&nbsp;AYUDA</button></li>
@@ -625,7 +633,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="grid-2">
     <div class="panel">
       <h2 class="panel__head">Fuentes utilizadas</h2>
-      <p>BOE/BORME, Registro Mercantil Central, DatosCif, LibreBOR, InfoNIF, OEPM (Localizador de Marcas, TMview, BOPI), Registro Público Concursal, sistema VIES de la Comisión Europea, Google/Bing (búsqueda dirigida), LinkedIn, Wayback Machine, crt.sh (Certificate Transparency), Google Public DNS (DoH) y RDAP.org. El detalle de cada una está en la sección 03 · Resultados.</p>
+      <p>BOE/BORME, Registro Mercantil Central, DatosCif, LibreBOR, InfoNIF, OEPM, Registro Público Concursal, VIES, contratación pública, listas de sanciones, buscadores, LinkedIn, Wayback Machine, crt.sh, Google Public DNS y RDAP.org. El acceso ordenado y el alcance de cada servicio están en 03 · Fuentes.</p>
     </div>
     <div class="panel">
       <h2 class="panel__head">Limitaciones</h2>
@@ -752,48 +760,54 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   </div>
 </section>
 
-<!-- ================= 03 RESULTADOS ================= -->
+<!-- ================= 03 FUENTES ================= -->
 <section id="sec-resultados" class="rastro-section">
   <div class="rastro-title-wrap">
-    <h1 class="rastro-title">03 · Fuentes y consultas externas</h1>
-    <p class="rastro-subtitle">Enlaces preparados con el objetivo. Cada consulta se abre en una pestaña nueva del servicio de terceros correspondiente</p>
+    <h1 class="rastro-title">03 · Fuentes de investigación</h1>
+    <p class="rastro-subtitle">Ruta de consulta ordenada, con búsquedas precargadas cuando el servicio lo permite</p>
   </div>
   <div id="resultados-empty" class="empty-state">Todavía no se ha introducido ningún objetivo. Ve a 01 · Consulta.</div>
   <div id="resultados-content" style="display:none;">
 
+    <div class="source-guide" aria-label="Ruta recomendada de investigación">
+      <div class="source-guide__step"><strong>1 · Identidad</strong><span>Existencia, actos y registro</span></div>
+      <div class="source-guide__step"><strong>2 · Estructura</strong><span>Cargos, vínculos y finanzas</span></div>
+      <div class="source-guide__step"><strong>3 · Riesgo</strong><span>Insolvencia, contratos y sanciones</span></div>
+      <div class="source-guide__step"><strong>4 · Huella digital</strong><span>Documentos, dominio e histórico</span></div>
+      <div class="source-guide__step"><strong>5 · Activos</strong><span>Marcas y localización</span></div>
+    </div>
+    <div class="source-legend"><span><strong>PRECARGADA</strong>: incluye el objetivo</span><span><strong>PORTAL</strong>: requiere introducirlo en destino</span><span>Los servicios de pago o con inicio de sesión se identifican.</span></div>
+    <div id="fuentes-query" class="notice"></div>
+
     <div class="panel">
-      <h2 class="panel__head">Registro mercantil y publicidad legal</h2>
+      <h2 class="panel__head">1 · Identidad mercantil y publicidad oficial</h2>
       <div id="grupo-mercantil"></div>
     </div>
 
     <div class="panel">
-      <h2 class="panel__head">Fuentes mercantiles complementarias <span class="tag-ext">SERVICIOS EXTERNOS</span></h2>
-      <p class="hint">Consultas dirigidas por CIF y denominación. RASTRO abre la búsqueda, pero no extrae, copia ni almacena el contenido de estos portales.</p>
+      <h2 class="panel__head">2 · Estructura, cargos y datos comerciales</h2>
+      <p class="hint">Fuentes complementarias: valida cualquier hallazgo relevante contra documentos o registros oficiales.</p>
       <div id="grupo-agregadores"></div>
     </div>
 
     <div class="panel">
-      <h2 class="panel__head">Marcas, nombres comerciales y propiedad industrial</h2>
-      <div id="grupo-marcas"></div>
-    </div>
-
-    <div class="panel">
-      <h2 class="panel__head">Infraestructura del dominio</h2>
-      <div id="grupo-infra"></div>
-    </div>
-
-    <div class="panel">
-      <h2 class="panel__head">Fiscalidad, insolvencia y cumplimiento</h2>
+      <h2 class="panel__head">3 · Riesgo, solvencia y contratación pública</h2>
       <div id="grupo-cumplimiento"></div>
     </div>
 
     <div class="panel">
-      <h2 class="panel__head">Presencia pública y redes profesionales</h2>
+      <h2 class="panel__head">4 · Presencia pública y documentos</h2>
       <div id="grupo-osint"></div>
     </div>
 
     <div class="panel">
-      <h2 class="panel__head">Localización</h2>
+      <h2 class="panel__head">4B · Infraestructura del dominio</h2>
+      <div id="grupo-infra"></div>
+    </div>
+
+    <div class="panel">
+      <h2 class="panel__head">5 · Marcas y localización</h2>
+      <div id="grupo-marcas"></div>
       <div id="grupo-mapa"></div>
     </div>
 
@@ -943,7 +957,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
         <li>Ve a <strong>01 · Consulta</strong> e introduce lo que conozcas: nombre, CIF/NIF y/o dominio.</li>
         <li>Pulsa <strong>Iniciar análisis</strong>.</li>
         <li>Revisa <strong>02 · Análisis</strong> para la validación local y la resolución DNS/RDAP.</li>
-        <li>Abre las fuentes que necesites desde <strong>03 · Resultados</strong>.</li>
+        <li>Sigue la ruta recomendada y abre las consultas necesarias desde <strong>03 · Fuentes</strong>.</li>
         <li>Anota lo que confirmes en <strong>04 · Relaciones</strong> para construir el grafo.</li>
         <li>Genera el resumen y expórtalo desde <strong>05 · Informe</strong>.</li>
       </ol>
@@ -1088,7 +1102,30 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   function targetedCompanySource(name, desc, siteFilter, homeUrl, query, tag) {
     if (!query) return externalLinkRow(name, desc + " Introduce antes un CIF o una denominación para preparar la búsqueda.", homeUrl, { tag: tag || "PORTAL" });
     var url = "https://www.google.com/search?q=" + encodeURIComponent("site:" + siteFilter + " " + query);
-    return externalLinkRow(name, desc, url, { tag: tag || "CONSULTA", buttonLabel: "Buscar" });
+    return externalLinkRow(name, desc, url, { tag: tag || "PRECARGADA", buttonLabel: "Buscar" });
+  }
+
+  function limpiarFormaJuridica(nombre) {
+    var limpio = String(nombre || "").trim().replace(/\s+/g, " ");
+    var forma = /\s*,?\s*(?:S\.?\s*L\.?\s*U\.?|S\.?\s*A\.?\s*U\.?|S\.?\s*L\.?\s*L\.?|S\.?\s*A\.?\s*L\.?|S\.?\s*L\.?|S\.?\s*A\.?|S\.?\s*C\.?|S\.?\s*COOP\.?|A\.?\s*I\.?\s*E\.?|U\.?\s*T\.?\s*E\.?|SOCIEDAD\s+(?:DE\s+RESPONSABILIDAD\s+)?LIMITADA(?:\s+UNIPERSONAL)?|SOCIEDAD\s+AN[ÓO]NIMA(?:\s+UNIPERSONAL)?|SOCIEDAD\s+COOPERATIVA)\s*$/i;
+    while (forma.test(limpio)) limpio = limpio.replace(forma, "").trim();
+    return limpio.replace(/[,.\-\s]+$/, "").trim() || String(nombre || "").trim();
+  }
+
+  function consultaOr(valores) {
+    var vistos = {};
+    var terminos = valores.filter(Boolean).map(function (valor) { return String(valor).trim(); }).filter(function (valor) {
+      var clave = valor.toUpperCase();
+      if (!valor || vistos[clave]) return false;
+      vistos[clave] = true;
+      return true;
+    }).map(function (valor) { return '"' + valor.replace(/"/g, "") + '"'; });
+    if (!terminos.length) return "";
+    return terminos.length > 1 ? "(" + terminos.join(" OR ") + ")" : terminos[0];
+  }
+
+  function googleUrl(consulta) {
+    return "https://www.google.com/search?q=" + encodeURIComponent(consulta);
   }
 
   /* =========================================================
@@ -1515,69 +1552,75 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   });
 
   /* =========================================================
-     03 · RESULTADOS (enlaces externos)
+     03 · FUENTES (enlaces externos)
      ========================================================= */
   function renderResultados() {
     $("#resultados-empty").style.display = "none";
     $("#resultados-content").style.display = "block";
 
     var nombre = estado.nombre || "";
+    var nombreBusqueda = limpiarFormaJuridica(nombre);
     var cifLimpio = estado.cif ? estado.cif.limpio : "";
     var dominio = estado.dominio && !estado.dominio.esIP ? estado.dominio.limpio : "";
-    var nombreQ = encodeURIComponent(nombre);
     var domQ = encodeURIComponent(dominio);
-    var companyQuery = [cifLimpio, nombre].filter(Boolean).map(function (value) { return '"' + value + '"'; }).join(" ");
+    var companyQuery = consultaOr([nombreBusqueda, cifLimpio]);
+    var boeQuery = nombreBusqueda ? '"' + nombreBusqueda.replace(/"/g, "") + '"' : cifLimpio;
+    $("#fuentes-query").innerHTML = "<strong>Consulta preparada:</strong> " + escapeHtml(companyQuery || "—") +
+      (nombre && nombreBusqueda !== nombre ? "<br><span class=\"hint\">Denominación depurada: se ha retirado la forma jurídica para mejorar la recuperación de resultados.</span>" : "");
 
     var mercantil = "";
-    mercantil += externalLinkRow("BOE — Buscador del BORME", "Boletín Oficial del Registro Mercantil. Busca por el campo «Título» con la denominación de la empresa.", "https://www.boe.es/borme/");
-    mercantil += externalLinkRow("Registro Mercantil Central", "Portal del Colegio de Registradores para consultas de denominaciones y publicidad mercantil.", "https://www.rmc.es");
-    mercantil += externalLinkRow("Registradores.org", "Índice de registros mercantiles y de la propiedad para solicitud de notas simples e informes.", "https://www.registradores.org");
-    mercantil += externalLinkRow("European e-Justice — registros mercantiles", "Acceso europeo a información societaria y registros empresariales de los Estados miembros.", "https://e-justice.europa.eu/topics/registers-business-insolvency-land/business-registers-search-company-eu/general-information-find-company_en");
-    mercantil += externalLinkRow("OpenCorporates", "Índice internacional no oficial para localizar sociedades, jurisdicciones y cargos; contrasta siempre el resultado con el registro de origen.", "https://opencorporates.com/companies?q=" + encodeURIComponent(nombre || cifLimpio));
-    if (cifLimpio) mercantil += externalLinkRow("Google — CIF exacto", "Busca el identificador fiscal exacto en documentos indexados, adjudicaciones, boletines y avisos legales.", "https://www.google.com/search?q=" + encodeURIComponent('"' + cifLimpio + '"'));
+    mercantil += externalLinkRow("BOE — buscador de anuncios BORME", "Formulario oficial con el campo «Título» precargado con la denominación depurada.", boeQuery ? "https://www.boe.es/buscar/anborme.php?campo%5B0%5D=TITULO&dato%5B0%5D=" + encodeURIComponent(boeQuery) + "&accion=Buscar" : "https://www.boe.es/buscar/anborme.php", { tag: boeQuery ? "PRECARGADA / OFICIAL" : "BUSCADOR OFICIAL", buttonLabel: boeQuery ? "Buscar" : "Abrir buscador" });
+    if (companyQuery) mercantil += externalLinkRow("Google — actos BORME", "Dork en todo el dominio del BOE, afinado con términos mercantiles y la denominación depurada OR el CIF.", googleUrl("site:boe.es " + companyQuery + ' (BORME OR "Registro Mercantil")'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+    mercantil += externalLinkRow("Registro Mercantil Central — denominaciones", "Formulario oficial para consultar disponibilidad de denominaciones sociales; es un servicio distinto de la información registral de una empresa.", "https://www.rmc.es/deno_consultas.aspx", { tag: "BUSCADOR OFICIAL / PAGO", buttonLabel: "Abrir buscador" });
+    mercantil += externalLinkRow("Registradores — datos abiertos", "Buscador público de información general de sociedades conforme al artículo 17.5 del Código de Comercio.", "https://opendata.registradores.org/", { tag: "BUSCADOR OFICIAL", buttonLabel: "Abrir buscador" });
+    mercantil += externalLinkRow("Registradores — búsqueda mercantil", "Buscador oficial por denominación social, NIF o IRUS. Puede requerir identificación y el documento solicitado es de pago.", "https://sede.registradores.org/site/invitado/mercantil/busqueda", { tag: "BUSCADOR OFICIAL / PAGO", buttonLabel: "Abrir buscador" });
+    mercantil += externalLinkRow("Registro Público Concursal", "Publicidad oficial de procedimientos concursales, insolvencias y administradores concursales.", "https://www.publicidadconcursal.es", { tag: "PORTAL OFICIAL" });
+    mercantil += externalLinkRow("European e-Justice — buscar empresa", "Acceso europeo a registros mercantiles e información societaria de los Estados miembros.", "https://e-justice.europa.eu/topics/registers-business-insolvency-land/business-registers-search-company-eu_en", { tag: "PORTAL OFICIAL" });
     $("#grupo-mercantil").innerHTML = mercantil;
 
     var agregadores = "";
-    agregadores += targetedCompanySource("DatosCif — empresa y vinculaciones", "Datos societarios, cargos, actos BORME, organigrama y relaciones entre empresas y directivos.", "datoscif.es/empresa", "https://www.datoscif.es/", companyQuery, "GRATUITO");
-    agregadores += targetedCompanySource("LibreBOR — historial mercantil", "Consulta y análisis de actos BORME, cargos directivos y trayectoria societaria. La API no se utiliza ni se almacenan credenciales.", "librebor.me", "https://librebor.me/", companyQuery, "CONSULTA");
-    agregadores += targetedCompanySource("InfoNIF — información financiera y comercial", "Datos mercantiles, cuentas, ratios, licitaciones y contactos; parte del contenido puede requerir registro o pago.", "infonif.economia3.com/ficha-empresa", "https://infonif.economia3.com/", companyQuery, "GRATUITO / PRÉMIUM");
+    agregadores += targetedCompanySource("DatosCif — empresa y vinculaciones", "Cargos, actos BORME, organigrama y relaciones. El dork consulta todo el dominio para no excluir fichas por su ruta.", "datoscif.es", "https://www.datoscif.es/", companyQuery, "PRECARGADA");
+    agregadores += targetedCompanySource("LibreBOR — historial mercantil", "Actos BORME y cargos históricos. Se abre una consulta dirigida; no se usa su API ni se almacenan credenciales.", "librebor.me", "https://librebor.me/", companyQuery, "PRECARGADA");
+    var infoNifTarget = cifLimpio || nombre;
+    agregadores += externalLinkRow("InfoNIF — información financiera y comercial", "Búsqueda interna precargada por CIF o denominación; parte del contenido puede requerir registro o pago.", infoNifTarget ? "https://infonif.economia3.com/general/empresas-informacion-listado-ejecutivos.asp?tipoBusqueda=company&buscar=" + encodeURIComponent(infoNifTarget) : "https://infonif.economia3.com/", { tag: infoNifTarget ? "PRECARGADA / PRÉMIUM" : "PORTAL / PRÉMIUM", buttonLabel: infoNifTarget ? "Buscar" : "Abrir" });
+    agregadores += externalLinkRow("OpenCorporates", "Índice internacional complementario, precargado con la denominación depurada; contrasta el resultado con el registro de origen.", (nombreBusqueda || cifLimpio) ? "https://opencorporates.com/companies?q=" + encodeURIComponent(nombreBusqueda || cifLimpio) : "https://opencorporates.com/", { tag: (nombreBusqueda || cifLimpio) ? "PRECARGADA" : "PORTAL", buttonLabel: (nombreBusqueda || cifLimpio) ? "Buscar" : "Abrir" });
+    agregadores += externalLinkRow("GLEIF — buscador LEI", "Identificadores LEI y datos de referencia de entidades financieras o participantes en mercados.", "https://search.gleif.org/", { tag: "PORTAL OFICIAL" });
     $("#grupo-agregadores").innerHTML = agregadores;
 
     var marcas = "";
-    marcas += externalLinkRow("OEPM — Localizador de Marcas", "Búsqueda de marcas y nombres comerciales denominativos o gráficos registrados en España.", "https://consultas2.oepm.es/LocalizadorWeb/");
-    marcas += externalLinkRow("TMview", "Buscador conjunto de marcas de las oficinas de propiedad industrial de la UE, incluida la OEPM.", "https://www.tmdn.org/tmview/");
-    marcas += externalLinkRow("BOPI — Boletín Oficial de la Propiedad Industrial", "Consulta y descarga del boletín donde se publican las solicitudes y concesiones de marcas.", "https://sede.oepm.gob.es/bopiweb/descargaPublicaciones/formBusqueda.action");
+    marcas += externalLinkRow("OEPM — Localizador de Marcas", "Búsqueda oficial de marcas y nombres comerciales registrados en España.", "https://consultas2.oepm.es/LocalizadorWeb/", { tag: "PORTAL OFICIAL" });
+    marcas += externalLinkRow("TMview", "Búsqueda conjunta de marcas de oficinas de propiedad industrial europeas, incluida la OEPM.", "https://www.tmdn.org/tmview/", { tag: "PORTAL OFICIAL" });
+    marcas += externalLinkRow("BOPI", "Publicaciones de propiedad industrial; útil para verificar solicitudes y concesiones localizadas previamente.", "https://sede.oepm.gob.es/bopiweb/descargaPublicaciones/formBusqueda.action", { tag: "PORTAL OFICIAL" });
     $("#grupo-marcas").innerHTML = marcas;
 
     var infra = "";
     if (dominio) {
-      infra += externalLinkRow("crt.sh — Certificate Transparency", "Historial de certificados TLS emitidos para el dominio; útil para descubrir subdominios.", "https://crt.sh/?q=" + domQ);
-      infra += externalLinkRow("Wayback Machine", "Histórico de capturas del sitio web del dominio.", "https://web.archive.org/web/*/" + domQ);
-      infra += externalLinkRow("WHOIS (who.is)", "Consulta WHOIS del dominio en un servicio de terceros.", "https://who.is/whois/" + domQ);
-      infra += externalLinkRow("ICANN Lookup", "Consulta de registro del dominio a través de la herramienta oficial de ICANN.", "https://lookup.icann.org/en/lookup");
+      infra += externalLinkRow("crt.sh — Certificate Transparency", "Certificados TLS históricos y posibles subdominios. El servicio puede responder lentamente.", "https://crt.sh/?q=" + domQ, { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      infra += externalLinkRow("Wayback Machine", "Capturas históricas del sitio web.", "https://web.archive.org/web/*/" + domQ, { tag: "PRECARGADA", buttonLabel: "Ver histórico" });
+      infra += externalLinkRow("WHOIS (who.is)", "Consulta WHOIS precargada en un servicio de terceros.", "https://who.is/whois/" + domQ, { tag: "PRECARGADA", buttonLabel: "Consultar" });
+      infra += externalLinkRow("ICANN Lookup", "Consulta oficial de datos de registro; requiere introducir el dominio en destino.", "https://lookup.icann.org/en/lookup", { tag: "PORTAL OFICIAL" });
     } else {
       infra = '<div class="empty-state">Introduce un dominio en 01 · Consulta para generar estos enlaces.</div>';
     }
     $("#grupo-infra").innerHTML = infra;
 
     var cumplimiento = "";
-    cumplimiento += externalLinkRow("VIES — Validación NIF-IVA intracomunitario", "Sistema de la Comisión Europea para validar números de IVA intracomunitarios (formato: ES + CIF).", "https://ec.europa.eu/taxation_customs/vies/#/vat-validation");
-    cumplimiento += externalLinkRow("Registro Público Concursal", "Publicidad de procesos concursales, insolvencias y administradores concursales.", "https://www.publicidadconcursal.es");
-    cumplimiento += externalLinkRow("Sede Electrónica — Agencia Tributaria", "Censo de empresarios y otros servicios fiscales (algunos requieren certificado digital).", "https://sede.agenciatributaria.gob.es");
-    cumplimiento += externalLinkRow("EU Sanctions Map", "Mapa de sanciones de la Unión Europea, útil para comprobar restricciones sobre entidades o personas.", "https://www.sanctionsmap.eu");
-    cumplimiento += externalLinkRow("OFAC Sanctions List Search", "Buscador de listas de sanciones de la Oficina de Control de Activos Extranjeros de EE. UU.", "https://sanctionssearch.ofac.treas.gov");
-    cumplimiento += externalLinkRow("GLEIF — buscador LEI", "Localiza identificadores LEI y datos de referencia de entidades participantes en mercados financieros.", "https://www.gleif.org/en/lei-search");
-    cumplimiento += externalLinkRow("Plataforma de Contratación del Sector Público", "Consulta licitaciones, adjudicaciones y perfiles del contratante en España.", "https://contrataciondelestado.es/wps/portal/plataforma");
-    cumplimiento += externalLinkRow("TED — contratación pública europea", "Anuncios de contratación y adjudicación publicados en el suplemento del Diario Oficial de la UE.", "https://ted.europa.eu/en/search/result");
+    cumplimiento += externalLinkRow("VIES — validar NIF-IVA", "Validación oficial de IVA intracomunitario. Introduce ES como país y el CIF sin espacios.", "https://ec.europa.eu/taxation_customs/vies/#/vat-validation", { tag: "PORTAL OFICIAL" });
+    cumplimiento += externalLinkRow("Contratación del Sector Público — buscador", "Buscador textual oficial de licitaciones y documentos. Su formulario usa una sesión interna y no admite una precarga externa estable.", "https://contrataciondelestado.es/wps/portal/plataforma/buscador/", { tag: "BUSCADOR OFICIAL", buttonLabel: "Abrir buscador" });
+    if (companyQuery) cumplimiento += externalLinkRow("Google — contratación pública española", "Dork precargado sobre Contratación del Estado con la denominación depurada OR el CIF.", googleUrl("site:contrataciondelestado.es " + companyQuery), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+    cumplimiento += externalLinkRow("TED — contratación pública europea", "Búsqueda oficial a texto completo con denominación depurada y CIF unidos mediante OR.", companyQuery ? "https://ted.europa.eu/es/search/result?FT=" + encodeURIComponent([nombreBusqueda, cifLimpio].filter(Boolean).join(" OR ")) + "&search-scope=ALL" : "https://ted.europa.eu/es/search/result", { tag: companyQuery ? "PRECARGADA / OFICIAL" : "BUSCADOR OFICIAL", buttonLabel: companyQuery ? "Buscar" : "Abrir buscador" });
+    cumplimiento += externalLinkRow("EU Sanctions Map", "Medidas restrictivas vigentes de la Unión Europea. La búsqueda se realiza en destino.", "https://www.sanctionsmap.eu", { tag: "PORTAL OFICIAL" });
+    cumplimiento += externalLinkRow("OFAC Sanctions List Search", "Listas de sanciones de EE. UU.; úsalo también para cargos y beneficiarios identificados.", "https://sanctionssearch.ofac.treas.gov", { tag: "PORTAL OFICIAL" });
     $("#grupo-cumplimiento").innerHTML = cumplimiento;
 
     var osint = "";
-    if (nombre) {
-      osint += externalLinkRow("LinkedIn — Búsqueda de la empresa", "Resultados de LinkedIn para la denominación introducida.", "https://www.linkedin.com/search/results/companies/?keywords=" + nombreQ);
-      osint += externalLinkRow("Google — dork administradores", "site:linkedin.com + nombre + \u00abadministrador\u00bb / \u00abCEO\u00bb.", "https://www.google.com/search?q=" + encodeURIComponent('"' + nombre + '" (administrador OR CEO OR "consejero delegado") site:linkedin.com'));
-      osint += externalLinkRow("Google — dork memorias / PDF", "Busca documentos públicos (memorias, cuentas anuales, contratos) sobre la empresa.", "https://www.google.com/search?q=" + encodeURIComponent('"' + nombre + '" filetype:pdf (memoria OR "cuentas anuales" OR contrato)'));
-      osint += externalLinkRow("Google — fraude, sanciones y litigios", "Consulta exploratoria con términos de riesgo; un resultado no acredita por sí solo ningún hecho.", "https://www.google.com/search?q=" + encodeURIComponent('"' + nombre + '" (fraude OR estafa OR sanción OR investigada OR concurso OR sentencia)'));
-      osint += externalLinkRow("Bing — búsqueda general", "Motor alternativo de búsqueda para contraste de resultados.", "https://www.bing.com/search?q=" + nombreQ);
+    if (nombreBusqueda || cifLimpio) {
+      osint += externalLinkRow("Google — presencia en LinkedIn", "Busca en todo LinkedIn la denominación depurada OR el CIF, sin restringir la ruta de la página.", googleUrl("site:linkedin.com " + companyQuery), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      osint += externalLinkRow("Google — personas vinculadas en LinkedIn", "Busca en todo LinkedIn menciones de la empresa o CIF asociadas a cargos societarios.", googleUrl("site:linkedin.com " + companyQuery + ' (administrador OR apoderado OR CEO OR "consejero delegado")'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      osint += externalLinkRow("Google — cargos y administradores", "Denominación depurada OR CIF, combinados con cargos societarios y de dirección.", googleUrl(companyQuery + ' (administrador OR apoderado OR CEO OR "consejero delegado" OR presidente)'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      osint += externalLinkRow("Google — documentos PDF", "Memorias, cuentas, contratos e informes asociados a la denominación depurada OR el CIF.", googleUrl(companyQuery + ' filetype:pdf (memoria OR "cuentas anuales" OR contrato OR informe)'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      osint += externalLinkRow("Google — señales de riesgo", "Consulta exploratoria por denominación depurada OR CIF. Un resultado no acredita por sí solo ningún hecho.", googleUrl(companyQuery + ' (fraude OR estafa OR sanción OR investigada OR concurso OR insolvencia OR sentencia)'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
+      osint += externalLinkRow("Bing — contraste general", "Consulta alternativa con la misma expresión denominación OR CIF.", "https://www.bing.com/search?q=" + encodeURIComponent(companyQuery), { tag: "PRECARGADA", buttonLabel: "Buscar" });
     } else {
       osint = '<div class="empty-state">Introduce una denominación en 01 · Consulta para generar estos enlaces.</div>';
     }
@@ -1585,8 +1628,8 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
 
     var mapa = "";
     if (estado.direccion) {
-      mapa += externalLinkRow("Google Maps", "Localización del domicilio social introducido.", "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(estado.direccion));
-      mapa += externalLinkRow("OpenStreetMap", "Alternativa abierta para localizar el domicilio social.", "https://www.openstreetmap.org/search?query=" + encodeURIComponent(estado.direccion));
+      mapa += externalLinkRow("Google Maps", "Localización precargada del domicilio social.", "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(estado.direccion), { tag: "PRECARGADA", buttonLabel: "Localizar" });
+      mapa += externalLinkRow("OpenStreetMap", "Alternativa abierta con la dirección precargada.", "https://www.openstreetmap.org/search?query=" + encodeURIComponent(estado.direccion), { tag: "PRECARGADA", buttonLabel: "Localizar" });
     } else {
       mapa = '<div class="empty-state">Introduce un domicilio social en 01 · Consulta para generar estos enlaces.</div>';
     }
@@ -1928,7 +1971,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   function construirObjetoInforme() {
     return {
       modulo: "RASTRO · COMPANY",
-      version: "1.4",
+      version: "1.7",
       generado: nowStamp(),
       objetivo: {
         nombre: estado.nombre || null,
