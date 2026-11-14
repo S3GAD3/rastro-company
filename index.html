@@ -8,13 +8,13 @@
 :root {
   --rastro-navy: #071a33;
   --rastro-navy-2: #0b274b;
-  --rastro-blue: #125a9c;
-  --rastro-active: #1976c5;
+  --rastro-blue: #0f5b9b;
+  --rastro-active: #1683d8;
 
-  --rastro-bg: #e9edf2;
+  --rastro-bg: #edf3f8;
   --rastro-panel: #ffffff;
   --rastro-soft: #f4f6f8;
-  --rastro-border: #b9c4cf;
+  --rastro-border: #c5d2df;
 
   --rastro-text: #172432;
   --rastro-muted: #5d6b78;
@@ -24,8 +24,8 @@
   --rastro-warning: #a66b00;
   --rastro-danger: #a93434;
 
-  --rastro-radius: 4px;
-  --rastro-shadow: 0 1px 3px rgba(7, 26, 51, 0.12);
+  --rastro-radius: 7px;
+  --rastro-shadow: 0 3px 12px rgba(7, 26, 51, 0.08);
 
   --rastro-sans: "Segoe UI", Arial, sans-serif;
   --rastro-mono: Consolas, "Courier New", monospace;
@@ -71,7 +71,7 @@ a:focus-visible {
   top: 0; left: 0; right: 0;
   height: var(--header-h);
   background: var(--rastro-navy);
-  border-bottom: 4px solid var(--rastro-blue);
+  border-bottom: 3px solid #30a6df;
   box-shadow: var(--rastro-shadow);
   display: flex;
   align-items: center;
@@ -101,6 +101,7 @@ a:focus-visible {
   white-space: nowrap;
   border-left: 1px solid rgba(255,255,255,0.18);
   padding-left: 12px;
+  line-height: 1.2;
 }
 .rastro-header__module strong { display:block; font-size:16px; }
 .rastro-header__module small {
@@ -171,7 +172,7 @@ a:focus-visible {
 .rastro-nav__item.active {
   background: var(--rastro-blue);
   color: #fff;
-  border-left: 3px solid #9ecdf5;
+  border-left: 3px solid #5ed5f2;
   font-weight: 600;
 }
 .rastro-nav__foot {
@@ -228,6 +229,7 @@ a:focus-visible {
   border-top: 3px solid var(--rastro-blue);
   border-radius: var(--rastro-radius);
   box-shadow: var(--rastro-shadow);
+  transition: box-shadow .18s ease, transform .18s ease;
   padding: 18px;
   margin-bottom: 16px;
 }
@@ -288,8 +290,9 @@ input[type=text]:focus, select:focus, textarea:focus {
 
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
 .btn {
-  border-radius: 3px;
+  border-radius: 5px;
   font-size: 11.5px;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -321,6 +324,8 @@ input[type=text]:focus, select:focus, textarea:focus {
 .btn-ext:after { content: "↗"; }
 .btn-small { padding: 4px 8px; font-size: 10px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn:not(:disabled):active { transform: translateY(1px); }
+.panel:hover { box-shadow: 0 5px 16px rgba(7,26,51,.11); }
 
 /* ============ INDICATORS ============ */
 .ind {
@@ -549,6 +554,58 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   #graph-svg { min-width:100%; }
   .creator { font-size:8px; }
 }
+
+/* ============ FLUJO DE INVESTIGACIÓN ============ */
+.workflow-bar {
+  position: sticky; top: calc(var(--header-h) + 8px); z-index: 100;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:10px 12px; margin:0 0 20px; background:rgba(255,255,255,.96);
+  border:1px solid #c7d6e5; border-left:4px solid #1683d8; border-radius:7px;
+  box-shadow:0 5px 16px rgba(7,26,51,.08); backdrop-filter:blur(8px);
+}
+.workflow-meta { min-width:145px; }
+.workflow-meta small { display:block; color:#59728b; font:700 9px var(--rastro-mono); letter-spacing:1px; }
+.workflow-meta strong { display:block; color:var(--rastro-navy); font-size:12px; margin-top:2px; max-width:210px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.workflow-steps { display:flex; align-items:center; gap:6px; overflow-x:auto; scrollbar-width:thin; }
+.workflow-step { border:1px solid transparent; background:transparent; color:#526b83; padding:7px 9px; border-radius:5px; font:700 10px var(--rastro-sans); white-space:nowrap; cursor:pointer; }
+.workflow-step span { display:inline-grid; place-items:center; width:20px; height:20px; margin-right:5px; border-radius:50%; background:#e6edf4; color:#355673; font:700 10px var(--rastro-mono); }
+.workflow-step:hover { background:#edf5fb; color:#0f5b9b; }
+.workflow-step.is-current { color:#fff; background:#0f5b9b; border-color:#0b4778; }
+.workflow-step.is-current span { background:#fff; color:#0f5b9b; }
+.workflow-step.is-done span { background:#d8eff9; color:#0c689c; }
+.workflow-step.is-done { color:#315f7d; }
+.hero-panel { background:linear-gradient(118deg,#071a33 0%,#0b3158 70%,#125a9c 100%); color:#fff; border:0; border-radius:9px; padding:20px 22px; margin-bottom:16px; box-shadow:0 8px 22px rgba(7,26,51,.17); }
+.hero-panel h2 { margin:0; font-size:19px; letter-spacing:.3px; }
+.hero-panel p { margin:6px 0 0; color:#d7e7f5; max-width:760px; font-size:12.5px; }
+.hero-panel .hero-kicker { color:#72d4f3; font:700 9px var(--rastro-mono); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:5px; }
+.optional-fields { margin:4px 0 15px; border:1px solid #d0dce8; border-radius:6px; background:#f7fafd; }
+.optional-fields summary { cursor:pointer; list-style:none; padding:11px 13px; color:#164c77; font-weight:700; font-size:11.5px; }
+.optional-fields summary::-webkit-details-marker { display:none; }
+.optional-fields summary:after { content:"＋"; float:right; color:#1683d8; font-size:15px; line-height:12px; }
+.optional-fields[open] summary:after { content:"−"; }
+.optional-fields__body { padding:4px 13px 2px; border-top:1px solid #dce6ef; }
+.action-tray { display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding:12px; background:#eaf3fa; border:1px solid #c7dbea; border-radius:6px; margin:16px 0; }
+.action-tray strong { color:#0a3459; font-size:11px; margin-right:auto; }
+.rastro-main { max-width:1600px; }
+.rastro-title { font-size:18px; }
+.rastro-subtitle { font-size:13px; }
+@media (max-width:900px) {
+  .workflow-bar { top:calc(var(--header-h) + 58px); display:block; padding:8px; margin-bottom:15px; }
+  .workflow-meta { display:flex; justify-content:space-between; align-items:center; gap:10px; margin:0 3px 5px; }
+  .workflow-meta small { font-size:8px; }
+  .workflow-meta strong { font-size:11px; text-align:right; }
+  .workflow-steps { gap:3px; }
+  .workflow-step { padding:6px 7px; font-size:9px; }
+  .workflow-step span { width:18px; height:18px; }
+}
+@media (max-width:600px) {
+  .hero-panel { padding:16px; }
+  .hero-panel h2 { font-size:17px; }
+  .workflow-step { padding:5px 6px; }
+  .workflow-step span { margin-right:3px; }
+  .workflow-meta { margin-bottom:4px; }
+}
+
 </style>
 </head>
 <body>
@@ -564,31 +621,31 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="rastro-header__right">
     <span class="rastro-badge ok">● SISTEMA OPERATIVO</span>
     <span class="rastro-badge local">▣ PROCESAMIENTO LOCAL</span>
-      <span class="rastro-badge">VERSIÓN 2.0</span>
+      <span class="rastro-badge">VERSIÓN 2.2</span>
   </div>
 </header>
 
 <div class="rastro-mobile-nav" aria-label="Navegación móvil">
   <select id="mobile-nav-select" aria-label="Seleccionar sección">
-    <option value="sec-info">00 · INFORMACIÓN</option>
-    <option value="sec-consulta">01 · CONSULTA</option>
+    <option value="sec-consulta" selected>01 · OBJETIVO</option>
     <option value="sec-analisis">02 · ANÁLISIS</option>
     <option value="sec-resultados">03 · FUENTES</option>
     <option value="sec-relaciones">04 · RELACIONES</option>
     <option value="sec-informe">05 · INFORME</option>
-    <option value="sec-ayuda">06 · AYUDA</option>
+    <option value="sec-info">06 · INFORMACIÓN</option>
+    <option value="sec-ayuda">07 · AYUDA</option>
   </select>
 </div>
 
 <nav class="rastro-nav">
   <ul class="rastro-nav__list" role="tablist">
-    <li><button class="rastro-nav__item active" data-target="sec-info" role="tab">00&nbsp;&nbsp;INFORMACIÓN</button></li>
-    <li><button class="rastro-nav__item" data-target="sec-consulta" role="tab">01&nbsp;&nbsp;CONSULTA</button></li>
+    <li><button class="rastro-nav__item active" data-target="sec-consulta" role="tab">01&nbsp;&nbsp;OBJETIVO</button></li>
     <li><button class="rastro-nav__item" data-target="sec-analisis" role="tab">02&nbsp;&nbsp;ANÁLISIS</button></li>
     <li><button class="rastro-nav__item" data-target="sec-resultados" role="tab">03&nbsp;&nbsp;FUENTES</button></li>
     <li><button class="rastro-nav__item" data-target="sec-relaciones" role="tab">04&nbsp;&nbsp;RELACIONES</button></li>
     <li><button class="rastro-nav__item" data-target="sec-informe" role="tab">05&nbsp;&nbsp;INFORME</button></li>
-    <li><button class="rastro-nav__item" data-target="sec-ayuda" role="tab">06&nbsp;&nbsp;AYUDA</button></li>
+    <li><button class="rastro-nav__item" data-target="sec-info" role="tab">06&nbsp;&nbsp;INFORMACIÓN</button></li>
+    <li><button class="rastro-nav__item" data-target="sec-ayuda" role="tab">07&nbsp;&nbsp;AYUDA</button></li>
   </ul>
   <div class="rastro-nav__foot">
     <strong>ENTORNO LOCAL</strong>
@@ -597,9 +654,19 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
 </nav>
 
 <main class="rastro-main">
+  <div class="workflow-bar" aria-label="Ruta de trabajo">
+    <div class="workflow-meta"><small>RUTA DE INVESTIGACIÓN</small><strong id="current-objective">Sin objetivo seleccionado</strong></div>
+    <div class="workflow-steps">
+      <button type="button" class="workflow-step is-current" data-target="sec-consulta"><span>01</span>Objetivo</button>
+      <button type="button" class="workflow-step" data-target="sec-analisis"><span>02</span>Análisis</button>
+      <button type="button" class="workflow-step" data-target="sec-resultados"><span>03</span>Fuentes</button>
+      <button type="button" class="workflow-step" data-target="sec-relaciones"><span>04</span>Relaciones</button>
+      <button type="button" class="workflow-step" data-target="sec-informe"><span>05</span>Informe</button>
+    </div>
+  </div>
 
 <!-- ================= 00 INFORMACIÓN ================= -->
-<section id="sec-info" class="rastro-section active">
+<section id="sec-info" class="rastro-section">
   <div class="rastro-title-wrap">
     <h1 class="rastro-title">00 · Información del módulo</h1>
     <p class="rastro-subtitle">Qué hace RASTRO · COMPANY, cómo trata los datos y qué limitaciones tiene</p>
@@ -624,7 +691,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       <h2 class="panel__head">Procesamiento realizado</h2>
       <ul>
         <li><span class="tag-local">Local</span> — validación de CIF/NIF, lectura de provincia y forma societaria orientativas, validación sintáctica de dominio, generación de dorks de búsqueda, construcción del grafo de relaciones y del informe.</li>
-        <li><span class="tag-ext">Externo (API)</span> — resolución DNS en tiempo real y, cuando el navegador lo permite, consulta RDAP del dominio.</li>
+        <li><span class="tag-ext">Externo (API)</span> — resolución DNS en tiempo real, consulta RDAP del dominio y búsqueda en el índice LEI de GLEIF.</li>
         <li><span class="tag-ext">Externo (enlace)</span> — el resto de fuentes (registro mercantil, marcas, concursal, VIES, redes, prensa) se abren como enlaces preparados a servicios de terceros; RASTRO no las integra ni simula sus resultados.</li>
       </ul>
     </div>
@@ -633,7 +700,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   <div class="grid-2">
     <div class="panel">
       <h2 class="panel__head">Fuentes utilizadas</h2>
-      <p>BOE/BORME, Directorio de Sociedades de Registradores, sede del Registro Mercantil, DatosCif, LibreBOR, InfoNIF, OEPM, Registro Público Concursal, VIES, contratación pública, listas de sanciones, buscadores, LinkedIn, Wayback Machine, crt.sh, Google Public DNS y RDAP.org. El acceso ordenado y el alcance de cada servicio están en 03 · Fuentes.</p>
+      <p>BOE/BORME, Directorio de Sociedades de Registradores, sede del Registro Mercantil, DatosCif, LibreBOR, InfoNIF, OEPM, Registro Público Concursal, VIES, contratación pública, listas de sanciones, buscadores, LinkedIn, Wayback Machine, crt.sh, Google Public DNS, RDAP.org y GLEIF. El acceso ordenado y el alcance de cada servicio están en 03 · Fuentes.</p>
     </div>
     <div class="panel">
       <h2 class="panel__head">Limitaciones</h2>
@@ -656,27 +723,35 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
 </section>
 
 <!-- ================= 01 CONSULTA ================= -->
-<section id="sec-consulta" class="rastro-section">
+<section id="sec-consulta" class="rastro-section active">
+  <div class="hero-panel">
+    <div class="hero-kicker">RASTRO · COMPANY / ANÁLISIS SOCIETARIO</div>
+    <h2>Identifica la empresa objetivo</h2>
+    <p>Introduce un nombre o CIF. Después podrás contrastar fuentes, registrar vínculos y generar un resumen de trabajo.</p>
+  </div>
   <div class="rastro-title-wrap">
-    <h1 class="rastro-title">01 · Datos de consulta</h1>
-    <p class="rastro-subtitle">Introduce el objetivo de la investigación</p>
+    <h1 class="rastro-title">01 · Ficha del objetivo</h1>
+    <p class="rastro-subtitle">Los campos con * bastan para iniciar una consulta</p>
   </div>
 
   <div class="panel">
-    <h2 class="panel__head">Ficha de la empresa objetivo</h2>
+    <h2 class="panel__head">Identificación principal</h2>
     <div class="grid-2">
       <div class="field">
-        <label for="in-nombre">Denominación social / nombre comercial</label>
+        <label for="in-nombre">Denominación social / nombre comercial *</label>
         <input type="text" id="in-nombre" placeholder="Ej: RASTRO INVESTIGACIÓN DIGITAL S.L.">
         <div class="hint">Se usará para generar consultas en registros y buscadores.</div>
       </div>
       <div class="field">
-        <label for="in-cif">CIF / NIF de persona jurídica</label>
+        <label for="in-cif">CIF / NIF de persona jurídica *</label>
         <input type="text" id="in-cif" class="mono" placeholder="Ej: B12345674" maxlength="9" autocomplete="off">
         <div class="field-errormsg" id="err-cif">Formato no válido. Debe ser 1 letra + 7 dígitos + 1 dígito/letra de control.</div>
-        <div class="hint">Analizado exclusivamente de forma local (algoritmo público de validación).</div>
+        <div class="hint">Se comprueba localmente el dígito de control; no confirma el alta censal ni la identidad registral.</div>
       </div>
     </div>
+    <details class="optional-fields">
+      <summary>Datos de contexto y búsqueda avanzada (opcional)</summary>
+      <div class="optional-fields__body">
     <div class="grid-2">
       <div class="field">
         <label for="in-aliases">Otras denominaciones / nombres anteriores (opcional)</label>
@@ -704,17 +779,16 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
         <input type="text" id="in-direccion" placeholder="Ej: Calle Ejemplo 1, Madrid">
         <div class="hint">Solo se usa para preparar un enlace a mapas externos.</div>
       </div>
-    </div>
+    </div>      </div>
+    </details>
     <div class="btn-row">
-      <button class="btn btn-primary" id="btn-analizar">Iniciar análisis</button>
+      <button class="btn btn-primary" id="btn-analizar">Analizar objetivo</button>
       <button class="btn btn-secondary" id="btn-limpiar">Limpiar consulta</button>
     </div>
-    <div class="hint" id="consulta-status" style="margin-top:10px;"></div>
+    <div class="hint" id="consulta-status" style="margin-top:10px;" role="status" aria-live="polite"></div>
   </div>
 
-  <div class="notice">
-    Pulsa <strong>Enter</strong> en cualquier campo para lanzar el análisis. El objetivo introducido se conserva en pantalla tras el análisis: no se borra automáticamente.
-  </div>
+  <div class="notice"><strong>Uso:</strong> basta con el nombre o el CIF. Amplía «Datos de contexto» para añadir alias, dominio, domicilio o referencia. El control del CIF es formal, no una consulta al censo.</div>
 </section>
 
 <!-- ================= 02 ANÁLISIS ================= -->
@@ -761,6 +835,11 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       </div>
       <div id="rdap-result" style="margin-top:12px;"></div>
     </div>
+    <div class="action-tray">
+      <strong>Siguiente paso</strong>
+      <button type="button" class="btn btn-primary workflow-link" data-target="sec-resultados">Consultar fuentes</button>
+      <button type="button" class="btn btn-secondary workflow-link" data-target="sec-relaciones">Registrar relaciones</button>
+    </div>
 
   </div>
 </section>
@@ -790,13 +869,31 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
         <button class="btn btn-primary" id="btn-quick-google">Buscar en Google</button>
         <button class="btn btn-secondary" id="btn-quick-bing">Contrastar en Bing</button>
         <button class="btn btn-secondary" id="btn-copy-query">Copiar consulta</button>
-        <a class="btn btn-ext" id="btn-quick-register" href="https://sede.registradores.org/site/mercantil/busqueda" target="_blank" rel="noopener noreferrer">Registro Mercantil</a>
-        <a class="btn btn-ext" id="btn-quick-opendata" href="https://opendata.registradores.org/" target="_blank" rel="noopener noreferrer">Directorio abierto</a>
+        <a class="btn btn-ext" id="btn-quick-register" href="https://sede.registradores.org/site/invitado/mercantil/busqueda" target="_blank" rel="noopener noreferrer">Registro Mercantil</a>
+        <a class="btn btn-ext" id="btn-quick-opendata" href="https://opendata.registradores.org/directorio" target="_blank" rel="noopener noreferrer">Directorio de sociedades</a>
+        <button type="button" class="btn btn-secondary" id="btn-copy-register">Copiar NIF o nombre</button>
       </div>
       <div class="hint" id="quick-search-status" role="status" aria-live="polite" style="margin-top:8px"></div>
     </div>
 
-    <div class="notice warn"><strong>Consulta directa de empresa:</strong> el Directorio de Sociedades de Registradores ofrece datos básicos abiertos. Para una nota mercantil completa, cargos, actos y cuentas, el Registro permite pedir información por denominación o NIF; determinados documentos son de pago. No hay una API pública de consulta individual para integrar en este HTML. El BOE publicó un convenio que prevé acceso institucional de la Dirección General de la Policía a Open Data por API; su habilitación y credenciales pertenecen al entorno institucional, no a esta herramienta local.</div>
+    <div class="panel">
+      <h2 class="panel__head">Consulta de empresas en GLEIF <span class="tag-ext">API pública</span></h2>
+      <p class="hint" id="gleif-help">Busca por nombre, NIF indexado o código LEI. La búsqueda por nombre o NIF muestra entidades con domicilio legal en España. Se envía a GLEIF únicamente el término de este campo. La cobertura se limita a entidades con LEI.</p>
+      <form id="gleif-form">
+        <div class="field">
+          <label for="gleif-query">Nombre, NIF o LEI</label>
+          <input type="search" id="gleif-query" maxlength="180" autocomplete="off" aria-describedby="gleif-help" required>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-gleif" type="submit">Consultar GLEIF</button>
+          <a class="btn btn-ext" href="https://search.gleif.org/" target="_blank" rel="noopener noreferrer">Abrir buscador GLEIF</a>
+        </div>
+      </form>
+      <p class="hint" id="gleif-status" role="status" aria-live="polite"></p>
+      <div id="gleif-results"></div>
+    </div>
+
+    <div class="notice"><strong>Publicidad mercantil:</strong> el Directorio de Sociedades ofrece datos básicos. Si el Directorio muestra «Request Rejected», abre «Registro Mercantil» y selecciona «Buscar por sociedad». Para publicidad formal, utiliza la sede de Registradores. El acceso por API previsto en el convenio de la Dirección General de la Policía es institucional.</div>
 
     <div class="panel">
       <h2 class="panel__head">1 · Identidad mercantil y publicidad oficial</h2>
@@ -830,6 +927,11 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       <div id="grupo-mapa"></div>
     </div>
 
+    <div class="action-tray">
+      <strong>Continúa la investigación</strong>
+      <button type="button" class="btn btn-primary workflow-link" data-target="sec-relaciones">Añadir relaciones</button>
+      <button type="button" class="btn btn-secondary workflow-link" data-target="sec-informe">Ver resumen</button>
+    </div>
   </div>
 </section>
 
@@ -903,6 +1005,12 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       </div>
     </div>
     <div class="hint" style="margin-top:8px;">Arrastra los nodos para reorganizarlos. Pulsa un nodo o una conexión para ver su detalle. El motor gráfico está integrado en el HTML y funciona sin conexión.</div>
+  </div>
+
+  <div class="action-tray">
+    <strong>Cuando termines de registrar los vínculos</strong>
+    <button type="button" class="btn btn-primary workflow-link" data-target="sec-informe">Generar resumen</button>
+    <button type="button" class="btn btn-secondary workflow-link" data-target="sec-resultados">Volver a fuentes</button>
   </div>
 
   <div class="panel">
@@ -1005,7 +1113,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       <h2 class="panel__head">Privacidad y limitaciones</h2>
       <ul>
         <li>Ningún archivo o dato introducido se envía a un servidor propio.</li>
-        <li>La resolución DNS y RDAP se envían a servicios públicos de terceros (Google, RDAP.org) solo al pulsar el botón correspondiente.</li>
+        <li>Las consultas DNS, RDAP y GLEIF se realizan en el servicio externo correspondiente solo al pulsar su botón.</li>
         <li>Los enlaces a registros y agregadores mercantiles abren servicios de terceros en una pestaña nueva; sus resultados, condiciones y disponibilidad no dependen de RASTRO.</li>
         <li>DatosCif, LibreBOR e InfoNIF se abren mediante búsquedas dirigidas en el buscador; el acceso, cobertura y eventual contenido prémium dependen de cada servicio.</li>
         <li>Formatos admitidos para importar relaciones: CSV y JSON con columnas origen, tipo, destino, fuente, fecha.</li>
@@ -1189,6 +1297,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     $all(".rastro-section").forEach(function (s) { s.classList.toggle("active", s.id === target); });
     var mobileSelect = $("#mobile-nav-select");
     if (mobileSelect) mobileSelect.value = target;
+    updateWorkflow(target);
     window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
     if (target === "sec-relaciones") setTimeout(renderGrafo, 30);
   }
@@ -1198,6 +1307,26 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
       activarSeccion(btn.dataset.target, true);
     });
   });
+  $all(".workflow-step, .workflow-link").forEach(function (btn) {
+    btn.addEventListener("click", function () { activarSeccion(btn.dataset.target, true); });
+  });
+
+  function updateWorkflow(target) {
+    var steps = ["sec-consulta", "sec-analisis", "sec-resultados", "sec-relaciones", "sec-informe"];
+    var activeIndex = steps.indexOf(target);
+    var hasObjective = typeof estado !== "undefined" && !!(estado.nombre || (estado.aliases && estado.aliases.length) || estado.cif || estado.dominio);
+    $all(".workflow-step").forEach(function (step) {
+      var index = steps.indexOf(step.dataset.target);
+      step.classList.toggle("is-current", step.dataset.target === target);
+      step.classList.toggle("is-done", hasObjective && activeIndex > index);
+      if (step.dataset.target === target) step.setAttribute("aria-current", "step");
+      else step.removeAttribute("aria-current");
+    });
+    var label = "Sin objetivo seleccionado";
+    if (hasObjective) label = estado.nombre || (estado.aliases && estado.aliases[0]) || (estado.cif && estado.cif.limpio) || (estado.dominio && estado.dominio.limpio) || "Objetivo en curso";
+    var current = $("#current-objective");
+    if (current) current.textContent = label;
+  }
   $("#mobile-nav-select").addEventListener("change", function (e) {
     activarSeccion(e.target.value, false);
   });
@@ -1368,11 +1497,15 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     inCif.classList.remove("field-error"); inDominio.classList.remove("field-error");
     errCif.style.display = "none"; errDominio.style.display = "none";
     $("#consulta-status").textContent = "";
+    resetGleif("");
     estado = { nombre:"", aliases:[], cif:null, dominio:null, direccion:"", referencia:"", notas:"", relaciones:[] };
     $("#analisis-empty").style.display = "block"; $("#analisis-content").style.display = "none";
     $("#resultados-empty").style.display = "block"; $("#resultados-content").style.display = "none";
     $("#informe-empty").style.display = "block"; $("#informe-content").style.display = "none";
     $("#rel-origen").value = ""; renderRelTabla(); renderGrafo();
+    $(".optional-fields").open = false;
+    activarSeccion("sec-consulta", true);
+    $("#current-objective").textContent = "Sin objetivo seleccionado";
   });
 
   function ejecutarAnalisis() {
@@ -1603,26 +1736,153 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   /* =========================================================
      03 · FUENTES (enlaces externos)
      ========================================================= */
+  var gleifRequest = null;
+
+  function resetGleif(query) {
+    if (gleifRequest) gleifRequest.abort();
+    gleifRequest = null;
+    $("#gleif-query").value = query;
+    $("#gleif-status").textContent = "";
+    $("#gleif-results").replaceChildren();
+    $("#btn-gleif").disabled = false;
+  }
+
+  function datoRegistral() {
+    return (estado.cif && estado.cif.valido && estado.cif.limpio) ||
+      estado.nombre || estado.aliases[0] || (estado.cif && estado.cif.limpio) || "";
+  }
+
+  $("#btn-copy-register").addEventListener("click", function () {
+    var dato = datoRegistral();
+    if (!dato) {
+      $("#quick-search-status").textContent = "Introduce antes un nombre o NIF.";
+      return;
+    }
+    copyToClipboard(dato, this);
+  });
+
+  function mostrarRegistrosGleif(registros) {
+    var cards = registros.map(function (record) {
+      var attrs = record.attributes || {};
+      var entity = attrs.entity || {};
+      var address = entity.legalAddress || {};
+      var lei = String(attrs.lei || record.id || "");
+      var card = document.createElement("article");
+      card.className = "source-row";
+      var main = document.createElement("div");
+      main.className = "source-row__main";
+      var title = document.createElement("h3");
+      title.className = "source-row__name";
+      title.textContent = (entity.legalName && entity.legalName.name) || lei;
+      var datos = document.createElement("dl");
+      datos.className = "kv";
+      var domicilio = (address.addressLines || []).concat([address.postalCode, address.city, address.country]).filter(Boolean).join(", ");
+      [
+        ["LEI", lei],
+        ["Domicilio legal", domicilio],
+        ["Estado de la entidad", entity.status === "NULL" ? "" : entity.status],
+        ["Estado del LEI", attrs.registration && attrs.registration.status],
+        ["Identificador registral", entity.registeredAs],
+        ["LEI sucesor", entity.successorEntity && entity.successorEntity.lei]
+      ].forEach(function (par) {
+        if (!par[1]) return;
+        var label = document.createElement("dt");
+        var value = document.createElement("dd");
+        label.textContent = par[0];
+        value.textContent = par[1];
+        datos.append(label, value);
+      });
+      main.append(title, datos);
+      card.append(main);
+      if (/^[A-Z0-9]{18}[0-9]{2}$/.test(lei)) {
+        var link = document.createElement("a");
+        link.className = "btn btn-ext btn-small";
+        link.href = "https://api.gleif.org/api/v1/lei-records/" + lei;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Abrir registro original";
+        card.append(link);
+      }
+      return card;
+    });
+    $("#gleif-results").replaceChildren(...cards);
+  }
+
+  $("#gleif-form").addEventListener("submit", async function (event) {
+    event.preventDefault();
+    var query = $("#gleif-query").value.trim();
+    resetGleif(query);
+    var status = $("#gleif-status");
+    if (query.length < 3) {
+      status.textContent = "Introduce al menos tres caracteres.";
+      return;
+    }
+    var request = new AbortController();
+    gleifRequest = request;
+    var timeout = setTimeout(function () { request.abort(); }, 12000);
+    var button = $("#btn-gleif");
+    button.disabled = true;
+    status.textContent = "Consultando GLEIF…";
+    var url = new URL("https://api.gleif.org/api/v1/lei-records");
+    var exacto = /^[A-Z0-9]{18}[0-9]{2}$/i.test(query);
+    if (exacto) {
+      url.pathname += "/" + query.toUpperCase();
+    } else {
+      url.searchParams.set("filter[fulltext]", query);
+      url.searchParams.set("filter[entity.legalAddress.country]", "ES");
+      url.searchParams.set("page[size]", "10");
+    }
+    try {
+      var response = await fetch(url, { signal: request.signal, credentials: "omit", referrerPolicy: "no-referrer" });
+      var sinFicha = exacto && response.status === 404;
+      if (!response.ok && !sinFicha) throw new Error("HTTP " + response.status);
+      var body = sinFicha ? { data: [] } : await response.json();
+      if (gleifRequest !== request) return;
+      var records = exacto && !sinFicha ? [body.data] : body.data;
+      if (!Array.isArray(records) || records.some(function (record) { return !record || !record.attributes; })) {
+        throw new Error("Respuesta inesperada");
+      }
+      mostrarRegistrosGleif(records);
+      var total = body.meta && body.meta.pagination && body.meta.pagination.total;
+      status.textContent = records.length
+        ? "GLEIF · " + records.length + " de " + (total || records.length) + " coincidencias · " + nowStamp()
+        : "GLEIF no ha devuelto coincidencias. Prueba otra denominación o abre el buscador de Registradores.";
+    } catch (error) {
+      if (gleifRequest === request) {
+        status.textContent = request.signal.aborted
+          ? "GLEIF no respondió a tiempo. Puedes volver a intentarlo."
+          : "No se pudo completar la consulta a GLEIF. Puedes utilizar su buscador web.";
+      }
+    } finally {
+      clearTimeout(timeout);
+      if (gleifRequest === request) {
+        gleifRequest = null;
+        button.disabled = false;
+      }
+    }
+  });
+
   function renderResultados() {
+    resetGleif(datoRegistral());
     $("#resultados-empty").style.display = "none";
     $("#resultados-content").style.display = "block";
 
     var nombre = estado.nombre || "";
     var nombreBusqueda = limpiarFormaJuridica(nombre);
     var cifLimpio = estado.cif ? estado.cif.limpio : "";
-    var dominio = estado.dominio && !estado.dominio.esIP ? estado.dominio.limpio : "";
+    var dominio = estado.dominio && estado.dominio.valido && !estado.dominio.esIP ? estado.dominio.limpio : "";
     var domQ = encodeURIComponent(dominio);
     var companyQuery = consultaOr([nombreBusqueda].concat(estado.aliases || []).concat([cifLimpio]));
-    var boeQuery = nombreBusqueda ? '"' + nombreBusqueda.replace(/"/g, "") + '"' : ((estado.aliases && estado.aliases[0]) ? '"' + estado.aliases[0].replace(/"/g, "") + '"' : cifLimpio);
+    var boeQuery = nombreBusqueda || estado.aliases[0] || "";
     $("#fuentes-query").innerHTML = "<strong>Consulta preparada:</strong> " + escapeHtml(companyQuery || "—") +
       (nombre && nombreBusqueda !== nombre ? "<br><span class=\"hint\">Denominación depurada: se ha retirado la forma jurídica para mejorar la recuperación de resultados.</span>" : "");
 
     var mercantil = "";
-    mercantil += externalLinkRow("BOE — buscador de anuncios BORME", "Formulario oficial con el campo «Título» precargado con la denominación depurada.", boeQuery ? "https://www.boe.es/buscar/anborme.php?campo%5B0%5D=TITULO&dato%5B0%5D=" + encodeURIComponent(boeQuery) + "&accion=Buscar" : "https://www.boe.es/buscar/anborme.php", { tag: boeQuery ? "PRECARGADA / OFICIAL" : "BUSCADOR OFICIAL", buttonLabel: boeQuery ? "Buscar" : "Abrir buscador" });
+    mercantil += externalLinkRow("BOE — buscador de anuncios BORME", "Buscador oficial de anuncios de la sección II del BORME. Cuando hay denominación, se utiliza para preparar la búsqueda por título.", boeQuery ? "https://www.boe.es/buscar/anborme.php?campo%5B0%5D=TITULO&dato%5B0%5D=" + encodeURIComponent(boeQuery) + "&accion=Buscar" : "https://www.boe.es/buscar/anborme.php", { tag: boeQuery ? "PRECARGADA / OFICIAL" : "BUSCADOR OFICIAL", buttonLabel: boeQuery ? "Buscar" : "Abrir buscador" });
     if (companyQuery) mercantil += externalLinkRow("Google — actos BORME", "Dork en todo el dominio del BOE, afinado con términos mercantiles y la denominación depurada OR el CIF.", googleUrl("site:boe.es " + companyQuery + ' (BORME OR "Registro Mercantil")'), { tag: "PRECARGADA", buttonLabel: "Buscar" });
-    mercantil += externalLinkRow("Registro Mercantil Central — denominaciones", "Formulario oficial para consultar disponibilidad de denominaciones sociales; es un servicio distinto de la información registral de una empresa.", "https://www.rmc.es/deno_consultas.aspx", { tag: "BUSCADOR OFICIAL / PAGO", buttonLabel: "Abrir buscador" });
-    mercantil += externalLinkRow("Registradores — Directorio de Sociedades (Open Data)", "Portal oficial de datos abiertos; permite localizar información básica de sociedades. Contrasta identidad y vigencia con una nota mercantil cuando sea necesario.", "https://opendata.registradores.org/", { tag: "PORTAL OFICIAL / GRATUITO", buttonLabel: "Abrir directorio" });
-    mercantil += externalLinkRow("Registradores — búsqueda mercantil", "Buscador oficial por denominación social o NIF. La búsqueda permite solicitar publicidad mercantil; determinados documentos son de pago.", "https://sede.registradores.org/site/mercantil/busqueda", { tag: "BUSCADOR OFICIAL", buttonLabel: "Abrir buscador" });
+    mercantil += externalLinkRow("Registro Mercantil Central — denominaciones", "Trámite para comprobar si un nombre está disponible al constituir o renombrar una sociedad. La consulta ordinaria requiere pago con tarjeta o acceso de usuario registrado.", "https://www.rmc.es/Deno_consultas.aspx?lang=es", { tag: "TRÁMITE DE DENOMINACIÓN", buttonLabel: "Ver trámite" });
+    mercantil += externalLinkRow("Registradores — Directorio de Sociedades (Open Data)", "Busca datos básicos de sociedades inscritas. Si el portal rechaza el acceso, utiliza el buscador público de la sede mercantil.", "https://opendata.registradores.org/directorio", { tag: "PORTAL OFICIAL / GRATUITO", buttonLabel: "Abrir directorio" });
+    mercantil += externalLinkRow("Registradores — búsqueda mercantil", "Selecciona «Buscar por sociedad» e introduce la denominación social, el NIF o el IRUS. Algunos documentos son de pago.", "https://sede.registradores.org/site/invitado/mercantil/busqueda", { tag: "BUSCADOR OFICIAL", buttonLabel: "Abrir buscador" });
     mercantil += externalLinkRow("Registro Público Concursal", "Publicidad oficial de procedimientos concursales, insolvencias y administradores concursales.", "https://www.publicidadconcursal.es", { tag: "PORTAL OFICIAL" });
     mercantil += externalLinkRow("European e-Justice — buscar empresa", "Acceso europeo a registros mercantiles e información societaria de los Estados miembros.", "https://e-justice.europa.eu/topics/registers-business-insolvency-land/business-registers-search-company-eu_en", { tag: "PORTAL OFICIAL" });
     $("#grupo-mercantil").innerHTML = mercantil;
@@ -1639,7 +1899,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
     var marcas = "";
     marcas += externalLinkRow("OEPM — Localizador de Marcas", "Búsqueda oficial de marcas y nombres comerciales registrados en España.", "https://consultas2.oepm.es/LocalizadorWeb/", { tag: "PORTAL OFICIAL" });
     marcas += externalLinkRow("TMview", "Búsqueda conjunta de marcas de oficinas de propiedad industrial europeas, incluida la OEPM.", "https://www.tmdn.org/tmview/", { tag: "PORTAL OFICIAL" });
-    marcas += externalLinkRow("BOPI", "Publicaciones de propiedad industrial; útil para verificar solicitudes y concesiones localizadas previamente.", "https://sede.oepm.gob.es/bopiweb/descargaPublicaciones/formBusqueda.action", { tag: "PORTAL OFICIAL" });
+    marcas += externalLinkRow("BOPI", "Portal de publicaciones de la OEPM. La descarga de datos en XML y HTML requiere cuenta.", "https://consultas2.oepm.es/bopiweb/descargaPublicaciones/", { tag: "PORTAL OFICIAL" });
     $("#grupo-marcas").innerHTML = marcas;
 
     var infra = "";
@@ -2021,7 +2281,7 @@ table.rastro-table td.mono { font-family: var(--rastro-mono); font-size: 12px; }
   function construirObjetoInforme() {
     return {
       modulo: "RASTRO · COMPANY",
-      version: "2.0.0",
+      version: "2.2.0",
       generado: nowStamp(),
       objetivo: {
         nombre: estado.nombre || null,
